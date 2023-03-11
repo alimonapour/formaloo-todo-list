@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { PlusCircleIcon } from '@heroicons/react/24/solid'
+import { motion, AnimatePresence } from 'framer-motion'
 import { v4 as uuidv4 } from 'uuid'
 import { Status, TaskType } from '../../../types/TaskType'
 import { NewTask } from '../../new-task'
@@ -86,34 +87,56 @@ export const GroupTasks = ({ groupId, groupTitle }: PropTypes) => {
         </div>
       )}
       {ShowNewTaskForm && (
-        <NewTask handleChange={handleChange} addTask={addTask} task={task} />
+        <motion.div
+          className=''
+          initial={{ y: 0, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1 }}
+        >
+          <NewTask handleChange={handleChange} addTask={addTask} task={task} />
+        </motion.div>
       )}
       <div>
         {todoList.map((todo: TaskType) => {
           return (
-            <TodoTask
+            <motion.div
               key={todo.id}
-              todo={todo}
-              removeTask={removeTask}
-              doneTask={changeTaskStatusToDone}
-            />
+              initial={{ y: 0, opacity: 0 }}
+              animate={{ y: 5, opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.7 }}
+            >
+              <TodoTask
+                todo={todo}
+                removeTask={removeTask}
+                doneTask={changeTaskStatusToDone}
+              />
+            </motion.div>
           )
         })}
 
         <div
           className={twMerge(
-            'border-t-2 border-indigo-500',
+            'border-t-2 border-indigo-500 mt-2',
             doneTodoList.length === 0 && 'hidden',
           )}
         >
           {doneTodoList.length > 0 &&
             doneTodoList.map((todo: TaskType) => {
               return (
-                <DoneTasks
+                <motion.div
                   key={todo.id}
-                  todo={todo}
-                  pendingTask={changeTaskStatusToPending}
-                />
+                  initial={{ y: 0, opacity: 0 }}
+                  animate={{ y: 10, opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.7 }}
+                >
+                  <DoneTasks
+                    todo={todo}
+                    pendingTask={changeTaskStatusToPending}
+                  />
+                </motion.div>
               )
             })}
         </div>
