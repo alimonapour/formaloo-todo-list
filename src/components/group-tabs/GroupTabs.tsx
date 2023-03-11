@@ -48,7 +48,7 @@ export const GroupTabs = () => {
         <Tab.Panels className='mt-2'>
           {Object.values(groups).map((group) => (
             <Tab.Panel key={group.id}>
-              <GroupTasks groupId={group.id} groupTitle={group.title} />
+              <GroupTasks groupId={group.id} />
             </Tab.Panel>
           ))}
         </Tab.Panels>

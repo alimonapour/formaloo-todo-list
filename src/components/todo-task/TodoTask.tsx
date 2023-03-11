@@ -4,13 +4,13 @@ import { TaskType } from '../../types/TaskType'
 interface PropsType {
   todo: TaskType
   removeTask(taskIdToDelete: string): void
-  doneTask(taskIdToDone: string): void
+  toggleTaskStatus(taskIdToDone: string): void
 }
 
-export const TodoTask = ({ todo, removeTask, doneTask }: PropsType) => {
+export const TodoTask = ({ todo, removeTask, toggleTaskStatus }: PropsType) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let isChecked = event.target.checked
-    if (isChecked) return doneTask(todo.id)
+    if (isChecked) return toggleTaskStatus(todo.id)
   }
   return (
     <div className='w-full flex border p-2 my-2 rounded-md border-blue-400 justify-between'>
