@@ -1,9 +1,7 @@
 import { useState } from 'react'
 import { Tab } from '@headlessui/react'
 import { v4 as uuidv4 } from 'uuid'
-import { WorkTasks } from './work-tasks/WorkTasks'
-import { HomeTasks } from './home-tasks'
-import { LearningTasks } from './learning-tasks'
+import { GroupTasks } from './group-tasks'
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
@@ -48,15 +46,11 @@ export const GroupTabs = () => {
           ))}
         </Tab.List>
         <Tab.Panels className='mt-2'>
-          <Tab.Panel>
-            <WorkTasks groupTitle={groups.Work.title} />
-          </Tab.Panel>
-          <Tab.Panel>
-            <HomeTasks groupTitle={groups.Home.title} />
-          </Tab.Panel>
-          <Tab.Panel>
-            <LearningTasks groupTitle={groups.Learning.title} />
-          </Tab.Panel>
+          {Object.values(groups).map((group) => (
+            <Tab.Panel key={group.id}>
+              <GroupTasks groupId={group.id} groupTitle={group.title} />
+            </Tab.Panel>
+          ))}
         </Tab.Panels>
       </Tab.Group>
     </div>
