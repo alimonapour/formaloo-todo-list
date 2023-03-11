@@ -3,10 +3,11 @@ export enum Status {
   done,
 }
 
-export interface TaskType {
+export interface ITask {
   id: string
   title: string
-  createdAt: string
   status: Status
   groupId: string
+  createdAt: number
+  updatedAt?: number
 }

@@ -1,18 +1,27 @@
 import { useEffect, useState } from 'react'
-import { TaskType, Status } from '../types/TaskType'
+import { ITask, Status } from '../types/Task'
 
-export function useData(groupId: string) {
-  const [data, setData] = useState<TaskType[]>(getDataFromStorage())
-  console.log('🚀 ~ file: useData.ts:6 ~ useData ~ data:', data)
+export function useTasks(groupId: string) {
+  const [data, setData] = useState<ITask[]>(getDataFromStorage())
 
   useEffect(() => {
     setDataToStorage(data)
   }, [data])
 
-  const groupTasks = data.filter((item) => item.groupId === groupId)
-  console.log('🚀 ~ file: useData.ts:17 ~ useData ~ groupTasks:', groupTasks)
+  const groupTasks = data
+    .filter((item) => item.groupId === groupId)
+    .sort((a, b) => {
+      if (a.status === b.status) {
+        if (a.status === Status.pending) {
+          return (b.createdAt ?? 0) - (a.createdAt ?? 0)
+        } else {
+          return (b.updatedAt ?? 0) - (a.updatedAt ?? 0)
+        }
+      }
+      return a.status - b.status
+    })
 
-  function addTask(task: TaskType) {
+  function addTask(task: ITask) {
     setData([task, ...data])
   }
 
@@ -26,6 +35,7 @@ export function useData(groupId: string) {
     if (task) {
       task.status =
         task.status === Status.pending ? Status.done : Status.pending
+      task.updatedAt = Date.now()
       setData([...data])
     }
   }
@@ -38,10 +48,10 @@ export function useData(groupId: string) {
   }
 }
 
-function getDataFromStorage(): TaskType[] {
+function getDataFromStorage(): ITask[] {
   return JSON.parse(localStorage.getItem('todos') ?? '[]')
 }
 
-function setDataToStorage(data: TaskType[]) {
+function setDataToStorage(data: ITask[]) {
   localStorage.setItem('todos', JSON.stringify(data))
 }
