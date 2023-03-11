@@ -1,22 +1,24 @@
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { PlusCircleIcon } from '@heroicons/react/24/solid'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { v4 as uuidv4 } from 'uuid'
 import { Status, TaskType } from '../../../types/TaskType'
 import { NewTask } from '../../new-task'
 import { TodoTask } from '../../todo-task'
 import { twMerge } from 'tailwind-merge'
 import { DoneTasks } from '../../done-tasks'
+import { useData } from '../../../hooks/useData'
 
 interface PropTypes {
   groupId: string
-  groupTitle: string
 }
 
-export const GroupTasks = ({ groupId, groupTitle }: PropTypes) => {
+export const GroupTasks = ({ groupId }: PropTypes) => {
   const [ShowNewTaskForm, setShowNewTaskForm] = useState(false)
   const [task, setTask] = useState<string>('')
   const [todoList, setTodoList] = useState<TaskType[]>([])
+  const { tasks, addTask, removeTask, toggleTaskStatus } = useData(groupId)
+
   const [doneTodoList, setDoneTodoList] = useState<TaskType[]>([])
 
   const date = new Date()
@@ -27,7 +29,7 @@ export const GroupTasks = ({ groupId, groupTitle }: PropTypes) => {
     setTask(event.target.value)
   }
 
-  const addTask = (event: FormEvent<HTMLFormElement>): void => {
+  const addTaskHandler = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
     const newTask = {
       id: uuidv4(),
@@ -36,16 +38,16 @@ export const GroupTasks = ({ groupId, groupTitle }: PropTypes) => {
       status: Status.pending,
       groupId: groupId,
     }
-    setTodoList([...todoList, newTask])
+    addTask(newTask)
     setTask('')
   }
 
-  const removeTask = (taskIdToDelete: string): void => {
-    setTodoList(
-      todoList.filter((task) => {
-        return task.id !== taskIdToDelete
-      }),
-    )
+  const removeTaskHandler = (taskIdToDelete: string): void => {
+    removeTask(taskIdToDelete)
+  }
+
+  const toggleTaskStatusHandler = (taskId: string) => {
+    toggleTaskStatus(taskId)
   }
 
   const changeTaskStatusToDone = (taskIdToDone: string): void => {
@@ -94,11 +96,15 @@ export const GroupTasks = ({ groupId, groupTitle }: PropTypes) => {
           exit={{ opacity: 0 }}
           transition={{ duration: 1 }}
         >
-          <NewTask handleChange={handleChange} addTask={addTask} task={task} />
+          <NewTask
+            handleChange={handleChange}
+            addTask={addTaskHandler}
+            task={task}
+          />
         </motion.div>
       )}
       <div>
-        {todoList.map((todo: TaskType) => {
+        {tasks.map((todo: TaskType) => {
           return (
             <motion.div
               key={todo.id}
@@ -109,8 +115,8 @@ export const GroupTasks = ({ groupId, groupTitle }: PropTypes) => {
             >
               <TodoTask
                 todo={todo}
-                removeTask={removeTask}
-                doneTask={changeTaskStatusToDone}
+                removeTask={removeTaskHandler}
+                toggleTaskStatus={toggleTaskStatusHandler}
               />
             </motion.div>
           )
