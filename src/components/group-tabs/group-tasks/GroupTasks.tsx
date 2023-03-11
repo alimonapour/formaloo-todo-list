@@ -31,7 +31,7 @@ export const GroupTasks = ({ groupId, groupTitle }: PropTypes) => {
     const newTask = {
       id: uuidv4(),
       title: task,
-      creationDate: currentDate,
+      createdAt: currentDate,
       status: Status.pending,
       groupId: groupId,
     }
@@ -52,7 +52,7 @@ export const GroupTasks = ({ groupId, groupTitle }: PropTypes) => {
       return task.id === taskIdToDone
     })
     doneTask.status = Status.done
-
+    doneTask.createdAt = currentDate
     setDoneTodoList([...doneTodoList, doneTask])
     setTodoList(
       todoList.filter((task) => {

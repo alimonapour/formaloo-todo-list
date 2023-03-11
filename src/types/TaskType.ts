@@ -6,7 +6,7 @@ export enum Status {
 export interface TaskType {
   id: string
   title: string
-  creationDate: string
+  createdAt: string
   status: Status
   groupId: string
 }

@@ -17,7 +17,7 @@ export const DoneTasks = ({ todo, pendingTask }: PropsType) => {
         <input type='checkbox' defaultChecked={true} onChange={handleChange} />
         <div className='flex flex-col ml-4'>
           <h1>{todo.title}</h1>
-          <h2>{todo.creationDate}</h2>
+          <h2>{todo.createdAt}</h2>
         </div>
       </div>
     </div>
