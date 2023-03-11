@@ -51,6 +51,8 @@ export const GroupTasks = ({ groupId, groupTitle }: PropTypes) => {
     const [doneTask] = todoList.filter((task) => {
       return task.id === taskIdToDone
     })
+    doneTask.status = Status.done
+
     setDoneTodoList([...doneTodoList, doneTask])
     setTodoList(
       todoList.filter((task) => {
@@ -60,10 +62,12 @@ export const GroupTasks = ({ groupId, groupTitle }: PropTypes) => {
   }
 
   const changeTaskStatusToPending = (taskIdToPending: string): void => {
-    const [doneTask] = doneTodoList.filter((task) => {
+    const [pendingTask] = doneTodoList.filter((task) => {
       return task.id === taskIdToPending
     })
-    setTodoList([...todoList, doneTask])
+
+    pendingTask.status = Status.pending
+    setTodoList([...todoList, pendingTask])
     setDoneTodoList(
       doneTodoList.filter((task) => {
         return task.id !== taskIdToPending
