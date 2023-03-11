@@ -8,5 +8,5 @@ export interface TaskType {
   title: string
   creationDate: string
   status: Status
-  group: string
+  groupId: string
 }
