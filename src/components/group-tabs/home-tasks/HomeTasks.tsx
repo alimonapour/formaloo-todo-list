@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { PlusCircleIcon } from '@heroicons/react/24/solid'
 import { v4 as uuidv4 } from 'uuid'
-import { NewTask } from '../new-task'
+import { NewTask } from '../../new-task'
 import { TaskType, Status } from '../../../types/TaskType'
 import { TodoTask } from '../../todo-task'
 
@@ -28,6 +28,15 @@ export const HomeTasks = ({ groupTitle }: { groupTitle: string }) => {
     setHomeTodoList([...homeTodoList, newTask])
     setTask('')
   }
+
+  const removeTask = (taskIdToDelete: string): void => {
+    setHomeTodoList(
+      homeTodoList.filter((task) => {
+        return task.id != taskIdToDelete
+      }),
+    )
+  }
+
   return (
     <div>
       <div>
@@ -44,7 +53,9 @@ export const HomeTasks = ({ groupTitle }: { groupTitle: string }) => {
         )}
         <div>
           {homeTodoList.map((todo: TaskType) => {
-            return <TodoTask key={todo.id} todo={todo} />
+            return (
+              <TodoTask key={todo.id} todo={todo} removeTask={removeTask} />
+            )
           })}
         </div>
       </div>

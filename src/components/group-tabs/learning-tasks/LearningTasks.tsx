@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { PlusCircleIcon } from '@heroicons/react/24/solid'
-import { NewTask } from '../new-task'
+import { NewTask } from '../../new-task'
 import { v4 as uuidv4 } from 'uuid'
 import { Status, TaskType } from '../../../types/TaskType'
 import { TodoTask } from '../../todo-task'
@@ -29,6 +29,15 @@ export const LearningTasks = ({ groupTitle }: { groupTitle: string }) => {
     setLearningTodoList([...learningTodoList, newTask])
     setTask('')
   }
+
+  const removeTask = (taskIdToDelete: string): void => {
+    setLearningTodoList(
+      learningTodoList.filter((task) => {
+        return task.id != taskIdToDelete
+      }),
+    )
+  }
+
   return (
     <div>
       {!ShowNewTaskForm && (
@@ -44,7 +53,7 @@ export const LearningTasks = ({ groupTitle }: { groupTitle: string }) => {
       )}
       <div>
         {learningTodoList.map((todo: TaskType) => {
-          return <TodoTask key={todo.id} todo={todo} />
+          return <TodoTask key={todo.id} todo={todo} removeTask={removeTask} />
         })}
       </div>
     </div>

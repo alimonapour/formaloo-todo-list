@@ -3,9 +3,10 @@ import { TaskType } from '../../types/TaskType'
 
 interface PropsType {
   todo: TaskType
+  removeTask(taskIdToDelete: string): void
 }
 
-export const TodoTask = ({ todo }: PropsType) => {
+export const TodoTask = ({ todo, removeTask }: PropsType) => {
   return (
     <div className='w-full flex border p-2 my-2 rounded-md border-blue-400 justify-between'>
       <div className='flex'>
@@ -17,7 +18,9 @@ export const TodoTask = ({ todo }: PropsType) => {
       </div>
       <div className='flex items-center'>
         <TrashIcon
-          onClick={() => console.log('hello')}
+          onClick={() => {
+            removeTask(todo.id)
+          }}
           className='h-4 w-4 text-red-500 cursor-pointer text-center'
         />
       </div>
