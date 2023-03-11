@@ -6,6 +6,8 @@ ones only if they are not marked as done.
 
 ## Demo
 
+https://formaloo-todo-list-app.vercel.app/
+
 ## Features
 
 - Adding new tasks (note that each task belongs to a single group)
