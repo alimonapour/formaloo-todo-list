@@ -18,7 +18,7 @@ export const TodoTask = ({ todo, removeTask, doneTask }: PropsType) => {
         <input type='checkbox' onChange={handleChange} />
         <div className='flex flex-col ml-4'>
           <h1 className='text-md font-medium leading-5'>{todo.title}</h1>
-          <h2 className='text-sm font-medium leading-5'>{todo.creationDate}</h2>
+          <h2 className='text-sm font-medium leading-5'>{todo.createdAt}</h2>
         </div>
       </div>
       <div className='flex items-center'>
