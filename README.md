@@ -24,6 +24,8 @@ https://formaloo-todo-list-app.vercel.app/
 - Tailwind CSS - A utility-first CSS framework.
 - Framer motion - Framer Motion is a production-ready motion library for React
   from Framer.
+- Headless UI - A set of completely unstyled, fully accessible UI components,
+  designed to integrate beautifully with Tailwind CSS.
 
 ## App Structure
 
